@@ -1,95 +1,119 @@
 --함수, 프로시저, 트리거
 
 --가장 먼저 실행
-SET SERVEROUTPUT ON  
+--SET SERVEROUTPUT ON  
 
 --함수, 프로시저, 트리거, 삭제
-drop function random_call;
-drop function random_pr;
-drop function random_rr;
-
---함수----------------------------------------------------------------------------------------------------------------------------------------------------
+--drop function random_call;
+--drop function random_pr;
+--drop function random_rr;
 
 
 --프로시저----------------------------------------------------------------------------------------------------------------------------------------------------
 
---트리거----------------------------------------------------------------------------------------------------------------------------------------------------
---2. 예약 입력시 이름, 연락처 불일치 시 의사 랜덤 넣기
-CREATE OR REPLACE TRIGGER RE_INPUT_RANDOM
-AFTER INSERT ON RES_T
-FOR EACH ROW
-BEGIN
+--3. 입원 테이블에서 환자 이름 검색 시
 
 
-   
-
-
-
-
-
--- 진료테이블에 입원이 입력 될시 입원 테이블에 자동추가
-
---insert into ds_t values('DS003','21/01/17','녹내장수술','D026','P040','입원'); 
---insert into hp_t values('HP002','P015','D021','N313','21/03/02','21/03/17'); 
-
-CREATE OR REPLACE TRIGGER ds_insert
-AFTER INSERT
-
-END;
-/
-
-create or replace function HP_NUM
-return varchar2
-is
-   SET f_num number := (SELECT COUNT(*)+1 FROM HP_T);
-   f_char varchar2(10) := 'HP'||TO_CHAR(F_NUM,'FM000');    
-begin
-return f_char;        
-end; 
-/
-
-
-
-
-
-
-
---뷰
---1. 진료과별 의사, 간호사, 환자 이름 보기
-
---2. 진료과별 진료 기록 보기
-
---3. 진료과별 외래 환자 수, 입원 환자 수 보기
-
---4. 퇴원일이 일주일 남은 환자 이름 보기
-
-
-
-
---1. 예약 입력시 이름, 연락처 일치 시 담당의사 넣기
---2. 예약 입력시 이름, 연락처 불일치 시 의사 랜덤 넣기
-
-
-
-
-
---2. 입원 테이블에서 환자 이름 검색 시
 --퇴원일이 미정입니다.
 --퇴원일이 0일 남았습니다. 
 
 
+--트리거----------------------------------------------------------------------------------------------------------------------------------------------------
 
+-- 진료테이블에 입원이 입력 될시 입원 테이블에 자동추가
 
+CREATE OR REPLACE TRIGGER ds_insert_hp
+AFTER INSERT on ds_t
+FOR EACH ROW
+DECLARE
+BEGIN
+IF :NEW.ds_inout = '입원' THEN
+ INSERT INTO hp_t VALUES('HP'||(SELECT COUNT(*) FROM hp_t), :NEW.ds_date, NULL , :NEW.doc_no, 
+ (SELECT nur_no FROM nur_t WHERE substr(:NEW.doc_no,2) = substr(nur_no,2) - 300), :NEW.pa_no, '101');
+ DBMS_OUTPUT.PUT_LINE('입원 차트에 추가하였습니다.');
+END IF;        
+END;
+/
 
---1. 보호자 이름, 관계, 번호
---2. 의사 연봉 (직급에 따라 연봉 입력 제한 기능)
---3. 입원실 (특정 입원실에서 입원하고 있는 환자 이름 보기)
---4. 입원료 (입원 날짜에 따라 입원실 등급에 따라 계산)
+insert into ds_T values('DS057','22/11/27','골절','입원','D021','P015');
 
+/*
+CREATE OR REPLACE TRIGGER ds_insert_hp
+AFTER INSERT on ds_t
+for each row
+DECLARE
+begin
+if :new.ds_inout = '입원' then
+ insert into hp_t values('HP'||(select count(*) from hp_t), :new.ds_date, NULL , :new.doc_no, 
+ (select nur_no from nur_t where substr(:new.doc_no,2) = substr(nur_no,2) - 300), :new.pa_no, '101');
+ DBMS_OUTPUT.PUT_LINE('입원 차트에 추가하였습니다.');
+end if;        
+END;
+/
+*/
 
+--1. 예약 입력시 진료과 의사 선택 - 담당 환자수가 적은 의사 부터 자동 배정
+
+create OR REPLACE view res_view
+as select * from res_t;
+
+insert into res_view values ('RE021',sysdate,'이명재','01045679865','M001',null);
+
+select * from res_view;
+select * from res_t;
+
+drop TRIGGER res_view_tr;
+
+CREATE OR REPLACE TRIGGER res_view_tr 
+instead OF insert on res_view referencing old as old new as new
+for each row
+begin
+ DBMS_OUTPUT.PUT_LINE('예약하였습니다.');
+INSERT INTO res_t values (:NEW.res_no, :NEW.res_date, :NEW.res_name, :NEW.res_call, :NEW.m_no,(select doc_no from(   
+select d.doc_no, ROW_NUMBER() OVER (ORDER BY (select count(*) from pat_t p,doc_t d where p.doc_no = d.doc_no and substr(d.m_no,2)= 001) desc) as rank_pa from pat_t p,doc_t d group by d.doc_no)
+where rank_pa <2));
+end;
+/
+
+select * from res_view;
+select * from res_t;
+
+---------merge
+MERGE INTO res_t r1m
+USING
+( SELECT res_no
+    FROM res_t
+    WHERE res_call = :NEW.res_call ) r2
+ON ( r1m.res_no = r2.res_no)
+WHEN MATCHED THEN
+UPDATE
+SET r1m.res_no = r2.res_no
+  , r1m.res_date = r2.res_date
+  , r1m.res_name = r2.res_name
+  , r1m.res_call = r2.res_call
+  , r1m.m_no = r2.m_no
+  , r1m.doc_no = (select doc_no from(   
+select d.doc_no, ROW_NUMBER() OVER (ORDER BY (select count(*) from pat_t p,doc_t d where p.doc_no = d.doc_no and substr(d.m_no,2)= 001) desc) as rank_pa from pat_t p,doc_t d group by d.doc_no)
+where rank_pa <2);
 
 
 --데이터 추가 함수------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+--환자 주민등록번호
+create or replace function random_pr
+return varchar2
+is
+f_rr varchar2(50);   
+f_year number := trunc(DBMS_random.value(70,95));
+f_month number := trunc(DBMS_random.value(1,12));
+f_day number := trunc(DBMS_random.value(01,30));
+f_fr number := trunc(DBMS_random.value(1,2));
+f_se number := trunc(DBMS_random.value(100000,999999));
+begin
+f_rr := to_char(f_year)||to_char(f_month,'FM00')||to_char(f_day,'FM00')||'-'||to_char(f_fr)||to_char(f_se);       
+return f_rr;        
+end; 
+/
 
 --의사, 간호사 주민등록번호
 create or replace function random_rr
@@ -107,67 +131,7 @@ return f_rr;
 end; 
 /
 
---환자 주민등록번호
-create or replace function random_pr
-return varchar2
-is
-f_rr varchar2(50);   
-f_year number := trunc(DBMS_random.value(70,95));
-f_month number := trunc(DBMS_random.value(1,12));
-f_day number := trunc(DBMS_random.value(01,30));
-f_fr number := trunc(DBMS_random.value(1,2));
-f_se number := trunc(DBMS_random.value(100000,999999));
-begin
-f_rr := to_char(f_year)||to_char(f_month,'FM00')||to_char(f_day,'FM00')||'-'||to_char(f_fr)||to_char(f_se);       
-return f_rr;        
-end; 
-/
-
---전화번호 생성 --변경됨
-create or replace function random_call
-return varchar2
-is
-f_call varchar2(50);   
-f_first varchar2(3) := '010';
-f_second number := trunc(DBMS_random.value(0001,9999));
-f_third number := trunc(DBMS_random.value(0001,9999));
-begin
-f_call := f_first||to_char(f_second,'FM0000')||to_char(f_third,'FM0000');       
-return f_call;        
-end; 
-/--의사, 간호사 주민등록번호
-create or replace function random_rr
-return varchar2
-is
-f_rr varchar2(50);   
-f_year number := trunc(DBMS_random.value(70,90));
-f_month number := trunc(DBMS_random.value(1,12));
-f_day number := trunc(DBMS_random.value(01,30));
-f_fr number := trunc(DBMS_random.value(1,2));
-f_se number := trunc(DBMS_random.value(100000,999999));
-begin
-f_rr := to_char(f_year)||to_char(f_month,'FM00')||to_char(f_day,'FM00')||'-'||to_char(f_fr)||to_char(f_se);       
-return f_rr;        
-end; 
-/
-
---환자 주민등록번호
-create or replace function random_pr
-return varchar2
-is
-f_rr varchar2(50);   
-f_year number := trunc(DBMS_random.value(70,95));
-f_month number := trunc(DBMS_random.value(1,12));
-f_day number := trunc(DBMS_random.value(01,30));
-f_fr number := trunc(DBMS_random.value(1,2));
-f_se number := trunc(DBMS_random.value(100000,999999));
-begin
-f_rr := to_char(f_year)||to_char(f_month,'FM00')||to_char(f_day,'FM00')||'-'||to_char(f_fr)||to_char(f_se);       
-return f_rr;        
-end; 
-/
-
---전화번호 생성 --변경됨
+--전화번호 생성
 create or replace function random_call
 return varchar2
 is
@@ -180,3 +144,4 @@ f_call := f_first||to_char(f_second,'FM0000')||to_char(f_third,'FM0000');
 return f_call;        
 end; 
 /
+*/
