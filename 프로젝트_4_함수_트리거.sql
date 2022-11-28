@@ -1,26 +1,76 @@
 --함수, 프로시저, 트리거
 
 --가장 먼저 실행
---SET SERVEROUTPUT ON  
+SET SERVEROUTPUT ON  
 
 --함수, 프로시저, 트리거, 삭제
---drop function random_call;
---drop function random_pr;
---drop function random_rr;
+drop function random_call;
+drop function random_pr;
+drop function random_rr;
 
 
 --프로시저----------------------------------------------------------------------------------------------------------------------------------------------------
 
 --3. 입원 테이블에서 환자 이름 검색 시
-
-
 --퇴원일이 미정입니다.
 --퇴원일이 0일 남았습니다. 
+
+create or replace PROCEDURE PROC_hp_pa_name(pa_in_name in varchar2)
+is
+proc_in_date hp_t.in_date%type;
+proc_out_date hp_t.out_date%type;
+today date;
+BEGIN
+dbms_output.put_line('1111111');
+    select h.in_date into proc_in_date from hp_t h, pat_t p WHERE h.hp_pano=p.pat_no and p.pat_name=pa_in_name;
+    select h.out_date into proc_out_date from hp_t h, pat_t p WHERE h.hp_pano=p.pat_no and p.pat_name=pa_in_name;
+    today := TO_date(SYSDATE, 'YY/MM/DD');
+    dbms_output.put_line(today);
+    dbms_output.put_line(proc_out_date);
+    if proc_out_date is null then 
+    dbms_output.put_line('퇴원일이 미정입니다.');
+    elsif proc_out_date > today then
+    dbms_output.put_line('퇴원일이'||trunc(proc_out_date-today)||'일 남았습니다.');
+    else
+    dbms_output.put_line('입원 환자가 아닙니다.');
+    end if;
+
+END;
+/
+
+execute PROC_hp_pa_name('성진호');
+
+--입원료 계산
+
+create or replace  PROCEDURE ho_bills (pt_name in pat_t.pat_name%type)
+is
+in_date hp_t.in_date%type;
+out_date hp_t.out_date%type;
+hr_price hr_t.hr_price%type;
+h_day number;
+res number;
+BEGIN
+    select h.in_date into in_date from hp_t h, pat_t p where h.hp_pano=p.pat_no and p.pat_name=pt_name;
+    select h.out_date into out_date from hp_t h, pat_t p where h.hp_pano=p.pat_no and p.pat_name=pt_name;
+    select r.hr_price into hr_price  from hr_t r, hp_t h, pat_t p where h.hp_pano=p.pat_no and p.pat_name=pt_name and r.hr_no=h.hr_no;
+    h_day:=trunc(out_date)-trunc(in_date)+1;
+    res:=h_day*hr_price;
+    if out_date is null then 
+    dbms_output.put_line('퇴원일이 미정입니다.');
+    elsif out_date is not null  then
+    dbms_output.put_line(pt_name||'님의 입원료는 '||res||'원입니다.');
+    else
+    dbms_output.put_line('알 수 없는 에러가 발생했습니다.');
+    end if;
+END;
+/
+
+execute ho_bills('이은만');
 
 
 --트리거----------------------------------------------------------------------------------------------------------------------------------------------------
 
--- 진료테이블에 입원이 입력 될시 입원 테이블에 자동추가
+--1. 진료테이블에 입원이 입력 될시 입원 테이블에 자동추가
 
 CREATE OR REPLACE TRIGGER ds_insert_hp
 AFTER INSERT on ds_t
@@ -52,10 +102,24 @@ END;
 /
 */
 
---1. 예약 입력시 진료과 의사 선택 - 담당 환자수가 적은 의사 부터 자동 배정
+
+--2. 예약 입력시 진료과 의사 선택  - 담당 환자수가 적은 의사 부터 자동 배정
 
 create OR REPLACE view res_view
 as select * from res_t;
+
+CREATE OR REPLACE TRIGGER res_view_tr 
+instead OF insert on res_view referencing old as old new as new
+for each row
+begin
+ DBMS_OUTPUT.PUT_LINE('예약하였습니다.');
+INSERT INTO res_t values (:NEW.res_no, :NEW.res_date, :NEW.res_name, :NEW.res_call, :NEW.m_no,(select doc_no from(   
+select d.doc_no, ROW_NUMBER() OVER (ORDER BY (
+select count(*) from pat_t p,doc_t d where p.doc_no = d.doc_no and substr(d.m_no,2)= 001) desc) as rank_pa 
+from pat_t p,doc_t d group by d.doc_no)
+where rank_pa <2));
+end;
+/
 
 insert into res_view values ('RE021',sysdate,'이명재','01045679865','M001',null);
 
@@ -64,21 +128,8 @@ select * from res_t;
 
 drop TRIGGER res_view_tr;
 
-CREATE OR REPLACE TRIGGER res_view_tr 
-instead OF insert on res_view referencing old as old new as new
-for each row
-begin
- DBMS_OUTPUT.PUT_LINE('예약하였습니다.');
-INSERT INTO res_t values (:NEW.res_no, :NEW.res_date, :NEW.res_name, :NEW.res_call, :NEW.m_no,(select doc_no from(   
-select d.doc_no, ROW_NUMBER() OVER (ORDER BY (select count(*) from pat_t p,doc_t d where p.doc_no = d.doc_no and substr(d.m_no,2)= 001) desc) as rank_pa from pat_t p,doc_t d group by d.doc_no)
-where rank_pa <2));
-end;
-/
+---MERGE--------------------------------------------------------------------------------
 
-select * from res_view;
-select * from res_t;
-
----------merge
 MERGE INTO res_t r1m
 USING
 ( SELECT res_no
