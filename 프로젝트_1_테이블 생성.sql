@@ -25,6 +25,7 @@ COMMENT ON COLUMN rank_T.r_name IS '직급이름';
 
 
 
+
 -- medi_dep_T Table 진료과
 CREATE TABLE medi_dep_T(
     m_no      VARCHAR2(50)    NOT NULL, 
