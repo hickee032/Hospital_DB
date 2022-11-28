@@ -19,37 +19,37 @@ insert into medi_dep_T values('M005','안과');
 
 --의사
 insert into doc_T values('D001','고영호','남',random_call,'730906-1831367','M001','R001');
-insert into doc_T values('D002','손장현','남',random_call,'700424-1324670','M002','R002');
+insert into doc_T values('D002','손장현','남',random_call,'700424-1324670','M001','R002');
 insert into doc_T values('D003','정형균','남',random_call,'810515-1836048','M001','R003');
-insert into doc_T values('D004','권아름','여',random_call,'870911-2847542','M003','R004');
-insert into doc_T values('D005','박용호','남',random_call,'850310-1340839','M004','R001');
-insert into doc_T values('D006','임가연','여',random_call,'830415-2331791','M005','R002');
-insert into doc_T values('D007','최규환','남',random_call,'870603-1627590','M005','R003');
+insert into doc_T values('D004','권아름','여',random_call,'870911-2847542','M001','R004');
+insert into doc_T values('D005','박용호','남',random_call,'850310-1340839','M001','R001');
+insert into doc_T values('D006','임가연','여',random_call,'830415-2331791','M001','R002');
+insert into doc_T values('D007','최규환','남',random_call,'870603-1627590','M002','R003');
 insert into doc_T values('D008','이성주','남',random_call,'741002-1540391','M002','R004');
-insert into doc_T values('D009','손슬기','여',random_call,'721010-2687072','M003','R001');
-insert into doc_T values('D010','백지현','여',random_call,'751115-2786475','M004','R002');
-insert into doc_T values('D011','주천광','남',random_call,'780222-1856678','M004','R003');
-insert into doc_T values('D012','박경록','남',random_call,'801007-1439511','M001','R004');
-insert into doc_T values('D013','남항우','남',random_call,'791015-1347010','M001','R001');
-insert into doc_T values('D014','유호철','남',random_call,'741028-1140522','M002','R002');
+insert into doc_T values('D009','손슬기','여',random_call,'721010-2687072','M002','R001');
+insert into doc_T values('D010','백지현','여',random_call,'751115-2786475','M002','R002');
+insert into doc_T values('D011','주천광','남',random_call,'780222-1856678','M002','R003');
+insert into doc_T values('D012','박경록','남',random_call,'801007-1439511','M002','R004');
+insert into doc_T values('D013','남항우','남',random_call,'791015-1347010','M003','R001');
+insert into doc_T values('D014','유호철','남',random_call,'741028-1140522','M003','R002');
 insert into doc_T values('D015','한경수','남',random_call,'740216-1554811','M003','R003');
-insert into doc_T values('D016','박성화','남',random_call,'790723-1535791','M002','R004');
-insert into doc_T values('D017','성강훈','남',random_call,'731118-1714635','M004','R001');
-insert into doc_T values('D018','채향석','남',random_call,'840321-1114086','M005','R002');
-insert into doc_T values('D019','허재','남',random_call,'770907-1317874','M002','R003');
-insert into doc_T values('D020','김지언','여',random_call,'720912-2700374','M001','R004');
-insert into doc_T values('D021','도진국','남',random_call,'740123-1474658','M003','R001');
+insert into doc_T values('D016','박성화','남',random_call,'790723-1535791','M003','R004');
+insert into doc_T values('D017','성강훈','남',random_call,'731118-1714635','M003','R001');
+insert into doc_T values('D018','채향석','남',random_call,'840321-1114086','M003','R002');
+insert into doc_T values('D019','허재','남',random_call,'770907-1317874','M004','R003');
+insert into doc_T values('D020','김지언','여',random_call,'720912-2700374','M004','R004');
+insert into doc_T values('D021','도진국','남',random_call,'740123-1474658','M004','R001');
 insert into doc_T values('D022','석정임','여',random_call,'750903-2480342','M004','R002');
-insert into doc_T values('D023','박재한','남',random_call,'710107-1932024','M002','R003');
+insert into doc_T values('D023','박재한','남',random_call,'710107-1932024','M004','R003');
 insert into doc_T values('D024','권오대','남',random_call,'730727-1403987','M004','R004');
-insert into doc_T values('D025','도영록','남',random_call,'780726-1511826','M003','R001');
+insert into doc_T values('D025','도영록','남',random_call,'780726-1511826','M005','R001');
 insert into doc_T values('D026','박정아','여',random_call,'830924-2368442','M005','R002');
-insert into doc_T values('D027','심동현','남',random_call,'790920-1885712','M001','R003');
-insert into doc_T values('D028','최정윤','여',random_call,'740924-2991990','M002','R004');
-insert into doc_T values('D029','김성규','남',random_call,'731003-1988562','M004','R001');
-insert into doc_T values('D030','이화정','여',random_call,'790210-2268193','M003','R002');
+insert into doc_T values('D027','심동현','남',random_call,'790920-1885712','M005','R003');
+insert into doc_T values('D028','최정윤','여',random_call,'740924-2991990','M005','R004');
+insert into doc_T values('D029','김성규','남',random_call,'731003-1988562','M005','R001');
+insert into doc_T values('D030','이화정','여',random_call,'790210-2268193','M005','R002');
 
--- 간호사
+
 -- 간호부장
 insert into nur_T VALUES('N301','장원영','여',random_call,'700214-2590937','M001','R005');
 insert into nur_T VALUES('N302','안유진','여',random_call,'780907-2768077','M002','R005');
@@ -86,26 +86,126 @@ insert into nur_T VALUES('N329','강동원','남',random_call,'930703-1320397','M004
 insert into nur_T VALUES('N330','이서진','남',random_call,'780529-1901374','M005','R008');
 
 --예약
-insert into res_T values('RE001','21/01/22','홍성근','0109461457','M001'); 
-insert into res_T values('RE002','22/02/10','조동호','0109461457','M001'); 
-insert into res_T values('RE003','21/02/11','최영하','0105496272','M001');
-insert into res_T values('RE004','21/06/29','이은만','0107815142','M002'); 
-insert into res_T values('RE005','21/07/08','장민선','01073555423','M003'); 
-insert into res_T values('RE006','21/09/02','정은미','01046767665','M005');
-insert into res_T values('RE007','21/09/14','성진호','01013712882','M005'); 
-insert into res_T values('RE008','21/09/15','문으뜸','01065565255','M002'); 
-insert into res_T values('RE009','21/11/07','전형진','01070885289','M004');
-insert into res_T values('RE010','22/01/22','홍국표','01057474484','M001');
-insert into res_T values('RE011','22/02/02','황성길','01067235693','M003'); 
-insert into res_T values('RE012','22/03/09','설시윤','01082815192','M004'); 
-insert into res_T values('RE013','22/04/12','박정욱','01011985149','M004'); 
-insert into res_T values('RE014','22/05/16','정미라','01036512745','M001');
-insert into res_T values('RE015','22/06/26','정미경','01099282939','M004'); 
-insert into res_T values('RE016','22/08/10','김차왕','01019593303','M001');
-insert into res_T values('RE017','22/08/13','김규병','01012544084','M001'); 
-insert into res_T values('RE018','22/08/25','고재영','0104824409','M004');
-insert into res_T values('RE019','22/11/02','김준수','01040507000','M003');
-insert into res_T values('RE020','22/11/10','김명주','01069486703','M002');
+insert into res_T values('RE001','21/01/22','홍성근','0109461457','M001',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M001')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE002','22/02/10','조동호','0109461457','M001',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M001')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE003','21/02/11','최영하','0105496272','M001',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M001')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
+insert into res_T values('RE004','21/06/29','이은만','0107815142','M002',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M002')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE005','21/07/08','장민선','01073555423','M003',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M003')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE006','21/09/02','정은미','01046767665','M005',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M005')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
+insert into res_T values('RE007','21/09/14','성진호','01013712882','M005',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M005')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE008','21/09/15','문으뜸','01065565255','M002',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M002')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE009','21/11/07','전형진','01070885289','M004',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M004')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
+insert into res_T values('RE010','22/01/22','홍국표','01057474484','M001',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M001')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
+insert into res_T values('RE011','22/02/02','황성길','01067235693','M003',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M003')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE012','22/03/09','설시윤','01082815192','M004',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M004')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE013','22/04/12','박정욱','01011985149','M004',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M004')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE014','22/05/16','정미라','01036512745','M001',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M001')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
+insert into res_T values('RE015','22/06/26','정미경','01099282939','M004',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M004')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE016','22/08/10','김차왕','01019593303','M001',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M001')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
+insert into res_T values('RE017','22/08/13','김규병','01012544084','M001',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M001')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2)); 
+insert into res_T values('RE018','22/08/25','고재영','0104824409','M004',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M004')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
+insert into res_T values('RE019','22/11/02','김준수','01040507000','M003',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M003')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
+insert into res_T values('RE020','22/11/10','김명주','01069486703','M002',(select A.doc_no
+from (
+    select * from doc_t
+    where  m_no in( 'M002')
+    order by DBMS_RANDOM.RANDOM ) A
+where  rownum < 2));
 
 --환자
 insert into pat_T values('P001','구청회','44','남','01026221305','790316-1876584',NULL,'D020','N316');
@@ -201,6 +301,7 @@ insert into ds_T values('DS049','22/09/27','충치',default,'D017','P016');
 insert into ds_T values('DS050','22/10/27','골절',default,'D021','P015');
 
 --입원실
+
 insert into hr_T values('101',30000);
 insert into hr_T values('201',40000);
 insert into hr_T values('301',50000);
@@ -218,4 +319,6 @@ insert into hp_t values('HP007','21/10/05','21/11/01','D008','N312','P021','101'
 insert into hp_t values('HP008','22/01/27','22/01/30','D006','N312','P035','201');
 insert into hp_t values('HP009','22/04/27','22/05/10','D009','N314','P038','301');
 insert into hp_t values('HP010','22/08/27','22/09/17','D016','N315','P017','501');
+
+
 
