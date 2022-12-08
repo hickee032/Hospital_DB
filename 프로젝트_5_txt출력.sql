@@ -1,13 +1,17 @@
 
---drop directory project_dir; --디렉토리 삭제 (관리자 로그인 필수)
-create directory project_dir as 'D:\dump'; --디렉토리 경로 설정,생성 (관리자 로그인 필수)
-grant read, write on directory PROJECT_DIR to project; --디렉토리의 사용권한 부여 (관리자 로그인 필수)
+-- drop directory project_dir; --디렉토리 삭제 (관리자 로그인 필수)
+-- dump 생성
+create directory PROJECT_DIR as 'D:\\'; --디렉토리 경로 설정,생성 (관리자 로그인 필수)
+grant read, write on directory PROJECT_DIR to team3; --디렉토리의 사용권한 부여 (관리자 로그인 필수)
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE VIEW chart_view as
 select rownum 차트번호,ds.ds_no 진료번호, ds.doc_no 의사번호,dc.doc_name 의사이름, ds.pa_no 환자번호, pa.pat_name 환자이름, ds.ds_note 소견
 from ds_t ds, pat_t pa, doc_t dc where ds.doc_no = dc.doc_no and  ds.pa_no = pa.pat_no;
 
+select * from chart_view;
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- 환자 한명의 역대 진료차트 파일 출력
 CREATE OR REPLACE PROCEDURE ds_WFile_name(fname varchar2,pname varchar2) IS
     v_output UTL_FILE.FILE_TYPE;
@@ -33,7 +37,9 @@ CREATE OR REPLACE PROCEDURE ds_WFile_name(fname varchar2,pname varchar2) IS
             END;
 /
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 exec ds_WFile_NAME('jinho.txt','성진호');
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- 전체 진료차트 파일 출력
 CREATE OR REPLACE PROCEDURE ds_WFile(fname varchar2) IS
@@ -57,5 +63,6 @@ CREATE OR REPLACE PROCEDURE ds_WFile(fname varchar2) IS
             DBMS_OUTPUT.PUT_LINE('잘못된 쿼리');
             END;
 /
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 exec ds_WFile('Chart.txt');
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
