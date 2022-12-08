@@ -1,5 +1,48 @@
 --데이터 추가
 
+--의사, 간호사 주민등록번호
+create or replace function random_rr
+return varchar2
+is
+f_rr varchar2(50);   
+f_year number := trunc(DBMS_random.value(70,90));
+f_month number := trunc(DBMS_random.value(1,12));
+f_day number := trunc(DBMS_random.value(01,30));
+f_fr number := trunc(DBMS_random.value(1,2));
+f_se number := trunc(DBMS_random.value(100000,999999));
+begin
+f_rr := to_char(f_year)||to_char(f_month,'FM00')||to_char(f_day,'FM00')||'-'||to_char(f_fr)||to_char(f_se);       
+return f_rr;        
+end; 
+/
+
+create or replace function random_pr
+return varchar2
+is
+f_rr varchar2(50);   
+f_year number := trunc(DBMS_random.value(70,95));
+f_month number := trunc(DBMS_random.value(1,12));
+f_day number := trunc(DBMS_random.value(01,30));
+f_fr number := trunc(DBMS_random.value(1,2));
+f_se number := trunc(DBMS_random.value(100000,999999));
+begin
+f_rr := to_char(f_year)||to_char(f_month,'FM00')||to_char(f_day,'FM00')||'-'||to_char(f_fr)||to_char(f_se);       
+return f_rr;        
+end; 
+/
+create or replace function random_call
+return varchar2
+is
+f_call varchar2(50);   
+f_first varchar2(3) := '010';
+f_second number := trunc(DBMS_random.value(0001,9999));
+f_third number := trunc(DBMS_random.value(0001,9999));
+begin
+f_call := f_first||to_char(f_second,'FM0000')||to_char(f_third,'FM0000');       
+return f_call;        
+end; 
+/
+
 --직급 
 insert into rank_T values('R001','교수');
 insert into rank_T values('R002','임상강사');
@@ -19,43 +62,44 @@ insert into medi_dep_T values('M005','안과');
 
 --의사
 insert into doc_T values('D001','고영호','남',random_call,'730906-1831367','M001','R001');
-insert into doc_T values('D002','손장현','남',random_call,'700424-1324670','M001','R002');
+insert into doc_T values('D002','손장현','남',random_call,'700424-1324670','M002','R002');
 insert into doc_T values('D003','정형균','남',random_call,'810515-1836048','M001','R003');
-insert into doc_T values('D004','권아름','여',random_call,'870911-2847542','M001','R004');
-insert into doc_T values('D005','박용호','남',random_call,'850310-1340839','M001','R001');
-insert into doc_T values('D006','임가연','여',random_call,'830415-2331791','M001','R002');
-insert into doc_T values('D007','최규환','남',random_call,'870603-1627590','M002','R003');
+insert into doc_T values('D004','권아름','여',random_call,'870911-2847542','M003','R004');
+insert into doc_T values('D005','박용호','남',random_call,'850310-1340839','M004','R001');
+insert into doc_T values('D006','임가연','여',random_call,'830415-2331791','M005','R002');
+insert into doc_T values('D007','최규환','남',random_call,'870603-1627590','M005','R003');
 insert into doc_T values('D008','이성주','남',random_call,'741002-1540391','M002','R004');
-insert into doc_T values('D009','손슬기','여',random_call,'721010-2687072','M002','R001');
-insert into doc_T values('D010','백지현','여',random_call,'751115-2786475','M002','R002');
-insert into doc_T values('D011','주천광','남',random_call,'780222-1856678','M002','R003');
-insert into doc_T values('D012','박경록','남',random_call,'801007-1439511','M002','R004');
-insert into doc_T values('D013','남항우','남',random_call,'791015-1347010','M003','R001');
-insert into doc_T values('D014','유호철','남',random_call,'741028-1140522','M003','R002');
+insert into doc_T values('D009','손슬기','여',random_call,'721010-2687072','M003','R001');
+insert into doc_T values('D010','백지현','여',random_call,'751115-2786475','M004','R002');
+insert into doc_T values('D011','주천광','남',random_call,'780222-1856678','M004','R003');
+insert into doc_T values('D012','박경록','남',random_call,'801007-1439511','M001','R004');
+insert into doc_T values('D013','남항우','남',random_call,'791015-1347010','M001','R001');
+insert into doc_T values('D014','유호철','남',random_call,'741028-1140522','M002','R002');
 insert into doc_T values('D015','한경수','남',random_call,'740216-1554811','M003','R003');
-insert into doc_T values('D016','박성화','남',random_call,'790723-1535791','M003','R004');
-insert into doc_T values('D017','성강훈','남',random_call,'731118-1714635','M003','R001');
-insert into doc_T values('D018','채향석','남',random_call,'840321-1114086','M003','R002');
-insert into doc_T values('D019','허재','남',random_call,'770907-1317874','M004','R003');
-insert into doc_T values('D020','김지언','여',random_call,'720912-2700374','M004','R004');
-insert into doc_T values('D021','도진국','남',random_call,'740123-1474658','M004','R001');
+insert into doc_T values('D016','박성화','남',random_call,'790723-1535791','M002','R004');
+insert into doc_T values('D017','성강훈','남',random_call,'731118-1714635','M004','R001');
+insert into doc_T values('D018','채향석','남',random_call,'840321-1114086','M005','R002');
+insert into doc_T values('D019','허재','남',random_call,'770907-1317874','M002','R003');
+insert into doc_T values('D020','김지언','여',random_call,'720912-2700374','M001','R004');
+insert into doc_T values('D021','도진국','남',random_call,'740123-1474658','M003','R001');
 insert into doc_T values('D022','석정임','여',random_call,'750903-2480342','M004','R002');
-insert into doc_T values('D023','박재한','남',random_call,'710107-1932024','M004','R003');
+insert into doc_T values('D023','박재한','남',random_call,'710107-1932024','M002','R003');
 insert into doc_T values('D024','권오대','남',random_call,'730727-1403987','M004','R004');
-insert into doc_T values('D025','도영록','남',random_call,'780726-1511826','M005','R001');
+insert into doc_T values('D025','도영록','남',random_call,'780726-1511826','M003','R001');
 insert into doc_T values('D026','박정아','여',random_call,'830924-2368442','M005','R002');
-insert into doc_T values('D027','심동현','남',random_call,'790920-1885712','M005','R003');
-insert into doc_T values('D028','최정윤','여',random_call,'740924-2991990','M005','R004');
-insert into doc_T values('D029','김성규','남',random_call,'731003-1988562','M005','R001');
-insert into doc_T values('D030','이화정','여',random_call,'790210-2268193','M005','R002');
+insert into doc_T values('D027','심동현','남',random_call,'790920-1885712','M001','R003');
+insert into doc_T values('D028','최정윤','여',random_call,'740924-2991990','M002','R004');
+insert into doc_T values('D029','김성규','남',random_call,'731003-1988562','M004','R001');
+insert into doc_T values('D030','이화정','여',random_call,'790210-2268193','M003','R002');
 
 
+-- 간호사 추가
 -- 간호부장
 insert into nur_T VALUES('N301','장원영','여',random_call,'700214-2590937','M001','R005');
 insert into nur_T VALUES('N302','안유진','여',random_call,'780907-2768077','M002','R005');
 insert into nur_T VALUES('N303','카리나','여',random_call,'751016-2169845','M003','R005');
 insert into nur_T VALUES('N304','윈터','여',random_call,'790824-2478821','M004','R005');
-insert into nur_T VALUES('N305','카리나','여',random_call,'840902-2353997','M005','R005');
+insert into nur_T VALUES('N305','유나','여',random_call,'840902-2353997','M005','R005');
 -- 간호과장
 insert into nur_T VALUES('N306','유재석','남',random_call,'791128-1552697','M001','R006');
 insert into nur_T VALUES('N307','정은지','여',random_call,'870513-2479235','M002','R006');
@@ -207,7 +251,7 @@ from (
     order by DBMS_RANDOM.RANDOM ) A
 where  rownum < 2));
 
---환자
+--환자 넣기
 insert into pat_T values('P001','구청회','44','남','01026221305','790316-1876584',NULL,'D020','N316');
 insert into pat_T values('P002','고재영','51','남','0104824409','720211-1864366','RE018','D010','N329');
 insert into pat_T values('P003','김규병','38','남','01012544084','850129-1316513','RE017','D013','N316');
@@ -276,7 +320,7 @@ insert into ds_T values('DS024','21/10/11','인플루엔자',default,'D016','P017');
 insert into ds_T values('DS025','21/10/15','예방주사',default,'D019','P013');
 insert into ds_T values('DS026','21/10/24','예방주사',default,'D005','P001');
 insert into ds_T values('DS027','21/10/25','피부질환',default,'D003','P006');
-insert into ds_T values('DS028','21/11/02','골절',default,'D013','P009');
+insert into ds_T values('DS028','21/11/02','아토피',default,'D013','P009');
 insert into ds_T values('DS029','21/11/06','검진',default,'D025','P005');
 insert into ds_T values('DS030','21/11/27','시력검사',default,'D018','P012');
 insert into ds_T values('DS031','21/12/27','인대손상',default,'D025','P005');
@@ -300,15 +344,14 @@ insert into ds_T values('DS048','22/08/27','소화기','입원','D016','P017');
 insert into ds_T values('DS049','22/09/27','충치',default,'D017','P016');
 insert into ds_T values('DS050','22/10/27','골절',default,'D021','P015');
 
---입원실
-
+--입원실 테이블
 insert into hr_T values('101',30000);
 insert into hr_T values('201',40000);
 insert into hr_T values('301',50000);
 insert into hr_T values('401',75000);
 insert into hr_T values('501',100000);
 
---입원환자
+--입원 테이블
 insert into hp_t values('HP001','21/01/17','21/01/20','D026','N311','P040','101'); 
 insert into hp_t values('HP002','21/03/02','21/03/17','D021','N313','P015','201'); 
 insert into hp_t values('HP003','21/06/30','21/07/07','D011','N315','P034','401');
